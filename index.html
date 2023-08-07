@@ -1,138 +1,299 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sup Bruh?</title>
-    <link rel="stylesheet" href="Style.css">
-    <script src="script.js" defer></script>
-</head>
-<!--
-<body>
-   <header>
-        <h3>01110100 01100101 01110011 01110100</h3>
-    </header>
--->
-    <nav>
-        <ul>
-            <li><a href="#bookmarks">Bookmarks</a></li>
-            <li><a href="#Sec2">Sec2</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><a href="#threatmap">Threatmap</a></li>
-        </ul>
-    </nav>
-    
-    <main>
-        <section id="Bookmarks">
-            <h2>Bookmarks</h2>
-            <p>Bless this mess....</p>
-        </section>
-
-
-        <div class="button-container">
-            <form action="https://lucolvin.github.io/Game-V1">
-                <button class="button-29" role="button">TIC TAC TOE</button>
-            </form>
-    
-            <form action="https://lucolvin.github.io/Game-V2">
-                <button class="button-29" role="button">Hangman</button>
-            </form>
-    
-            <form action="https://getcssscan.com/css-buttons-examples">
-                <button class="button-29" role="button">CSS Buttons</button>
-            </form>
-
-            <form action="https://www.potlabicons.com">
-                <button class="button-29" role="button">Icons</button>
-            </form>
-
-            <form action="https://getbootstrap.com/docs/5.2/getting-started/introduction/">
-                <button class="button-29" role="button">Bootstrap</button>
-            </form>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Password Protected Page</title>
+    <style>
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #dialogText {
+            color: white;
+            background-color: #333333;
+        }
+        
+        #dialogWrap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: table;
+            background-color: #EEEEEE;
+        }
+        
+        #dialogWrapCell {
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+        }
+        
+        #mainDialog {
+            max-width: 400px;
+            margin: 5px;
+            border: solid #AAAAAA 1px;
+            border-radius: 10px;
+            box-shadow: 3px 3px 5px 3px #AAAAAA;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #FFFFFF;
+            overflow: hidden;
+            text-align: left;
+        }
+        #mainDialog > * {
+            padding: 10px 30px;
+        }
+        #passArea {
+            padding: 20px 30px;
+            background-color: white;
+        }
+        #passArea > * {
+            margin: 5px auto;
+        }
+        #pass {
+            width: 100%;
+            height: 40px;
+            font-size: 30px;
+        }
+        
+        #messageWrapper {
+            float: left;
+            vertical-align: middle;
+            line-height: 30px;
+        }
+        
+        .notifyText {
+            display: none;
+        }
+        
+        #invalidPass {
+            color: red;
+        }
+        
+        #success {
+            color: green;
+        }
+        
+        #submitPass {
+            font-size: 20px;
+            border-radius: 5px;
+            background-color: #E7E7E7;
+            border: solid gray 1px;
+            float: right;
+            cursor: pointer;
+        }
+        #contentFrame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #attribution {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+        #attribution, #attribution a {
+            color: #999;
+        }
+        .error {
+            display: none;
+            color: red;
+        }
+    </style>
+  </head>
+  <body>
+    <iframe id="contentFrame" frameBorder="0" allowfullscreen></iframe>
+    <div id="dialogWrap">
+        <div id="dialogWrapCell">
+            <div id="mainDialog">
+                <div id="dialogText">This page is password protected.</div>
+                <div id="passArea">
+                    <p id="passwordPrompt">Password</p>
+                    <input id="pass" type="password" name="pass" autofocus>
+                    <div>
+                        <span id="messageWrapper">
+                            <span id="invalidPass" class="error">Sorry, please try again.</span>
+                            <span id="trycatcherror" class="error">Sorry, something went wrong.</span>
+                            <span id="success" class="notifyText">Success!</span>
+                            &nbsp;
+                        </span>
+                        <button id="submitPass" type="button">Submit</button>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+                <div id="securecontext" class="error">
+                    <p>
+                        Sorry, but password protection only works over a secure connection. Please load this page via HTTPS.
+                    </p>
+                </div>
+                <div id="nocrypto" class="error">
+                    <p>
+                        Your web browser appears to be outdated. Please visit this page using a modern browser.
+                    </p>
+                </div>
+            </div>
         </div>
+    </div>
+    <div id="attribution">
+        Protected by <a href="https://www.maxlaumeister.com/pagecrypt/">PageCrypt</a>
+    </div>
+    <script>
+    (function() {
 
-    </main>
+        var pl = "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";
+        
+        var submitPass = document.getElementById('submitPass');
+        var passEl = document.getElementById('pass');
+        var invalidPassEl = document.getElementById('invalidPass');
+        var trycatcherror = document.getElementById('trycatcherror');
+        var successEl = document.getElementById('success');
+        var contentFrame = document.getElementById('contentFrame');
+        
+        // Sanity checks
 
-    <head>
-        <style>
-            body {
-                margin: 0; /* Remove default margin to avoid extra space */
-                padding: 0; /* Remove default padding */
-              /*  overflow: hidden; /* Hide any overflowing content */
+        if (pl === "") {
+            submitPass.disabled = true;
+            passEl.disabled = true;
+            alert("This page is meant to be used with the encryption tool. It doesn't work standalone.");
+            return;
+        }
+
+        if (!isSecureContext) {
+            document.querySelector("#passArea").style.display = "none";
+            document.querySelector("#securecontext").style.display = "block";
+            return;
+        }
+
+        if (!crypto.subtle) {
+            document.querySelector("#passArea").style.display = "none";
+            document.querySelector("#nocrypto").style.display = "block";
+            return;
+        }
+        
+        function str2ab(str) {
+            var ustr = atob(str);
+            var buf = new ArrayBuffer(ustr.length);
+            var bufView = new Uint8Array(buf);
+            for (var i=0, strLen=ustr.length; i < strLen; i++) {
+                bufView[i] = ustr.charCodeAt(i);
             }
-    
-            iframe {
-                width: 100%; /* Make the iframe width 100% of the container */
-                height: 50vh; /* Set the iframe height to 100% of the viewport height */
-                border: none; /* Remove iframe border */
+            return bufView;
+        }
+
+        async function deriveKey(salt, password) {
+            const encoder = new TextEncoder()
+            const baseKey = await crypto.subtle.importKey(
+                'raw',
+                encoder.encode(password),
+                'PBKDF2',
+                false,
+                ['deriveKey'],
+            )
+            return await crypto.subtle.deriveKey(
+                { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+                baseKey,
+                { name: 'AES-GCM', length: 256 },
+                true,
+                ['decrypt'],
+            )
+        }
+        
+        async function doSubmit(evt) {
+            submitPass.disabled = true;
+            passEl.disabled = true;
+
+            let iv, ciphertext, key;
+            
+            try {
+                var unencodedPl = str2ab(pl);
+
+                const salt = unencodedPl.slice(0, 32)
+                iv = unencodedPl.slice(32, 32 + 16)
+                ciphertext = unencodedPl.slice(32 + 16)
+
+                key = await deriveKey(salt, passEl.value);
+            } catch (e) {
+                trycatcherror.style.display = "inline";
+                console.error(e);
+                return;
             }
-        </style>
-    </head>
-    <body>
-        <!-- Add a section element with an ID -->
-        <section id="threatmap">
-            <iframe src="https://threatmap.checkpoint.com"></iframe>
-        </section>
-    
-        <footer>
-            <p>&copy; 2023 Luke Colvin. All rights reserved.</p>
-        </footer>
-    </body>
-    
 
-</html>
+            try {
+                const decryptedArray = new Uint8Array(
+                    await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ciphertext)
+                );
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <!-- Random Section 1 -->
-<section id="lore1">
-    <h2>Random Lore Section 1</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac mi quis nisl congue hendrerit at quis nunc.
-        Fusce ultricies euismod nisi at consequat. Nam nec felis non metus vestibulum dignissim at eu libero.
-        Integer eu venenatis ex. In vitae varius massa. Fusce id velit sit amet ex fermentum bibendum eu ac ipsum.
-        Nunc mollis sagittis lectus at egestas.</p>
-</section>
+                let decrypted = new TextDecoder().decode(decryptedArray);
 
-<!-- Random Section 2 -->
-<section id="lore2">
-    <h2>Random Lore Section 2</h2>
-    <p>Phasellus a ex non elit posuere sagittis eget in quam. Fusce ac nunc vel sem luctus mattis. Nulla facilisi.
-        Aliquam et nisl ut ipsum feugiat bibendum et in quam. In nec dapibus justo. Sed mollis odio in purus
-        euismod, sit amet ullamcorper velit fringilla. Nam euismod risus at libero dictum, et egestas orci cursus.
-        Nullam congue lacus id luctus tincidunt.</p>
-</section>
+                if (decrypted === "") throw "No data returned";
 
-<!-- Random Section 3 -->
-<section id="lore3">
-    <h2>Random Lore Section 3</h2>
-    <p>Vestibulum vel urna et sem fringilla mattis nec a metus. Pellentesque nec pharetra turpis, at gravida nulla.
-        Quisque a odio congue, semper eros non, sodales sem. Vivamus malesuada, ipsum in hendrerit lacinia, nisl ex
-        ullamcorper purus, a tincidunt arcu tellus vitae sem. Proin ac congue libero. Suspendisse ac elit a nunc
-        suscipit rhoncus. Nullam in purus non turpis iaculis bibendum a vel quam.</p>
-</section>
+                const basestr = '<base href="." target="_top">';
+                const anchorfixstr = `
+                    <script>
+                        Array.from(document.links).forEach((anchor) => {
+                            const href = anchor.getAttribute("href");
+                            if (href.startsWith("#")) {
+                                anchor.addEventListener("click", function(e) {
+                                    e.preventDefault();
+                                    const targetId = this.getAttribute("href").substring(1);
+                                    const targetEl = document.getElementById(targetId);
+                                    targetEl.scrollIntoView();
+                                });
+                            }
+                        });
+                    <\/script>
+                `;
+                
+                // Set default iframe link targets to _top so all links break out of the iframe
+                if (decrypted.includes("<head>")) decrypted = decrypted.replace("<head>", "<head>" + basestr);
+                else if (decrypted.includes("<!DOCTYPE html>")) decrypted = decrypted.replace("<!DOCTYPE html>", "<!DOCTYPE html>" + basestr);
+                else decrypted = basestr + decrypted;
 
-<!-- Random Section 4 -->
-<section id="lore4">
-    <h2>Random Lore Section 4</h2>
-    <p>Suspendisse potenti. Pellentesque sit amet tortor condimentum, suscipit purus at, bibendum nisl. Vivamus nec
-        nulla id erat hendrerit gravida. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
-        cubilia Curae; Etiam id neque sit amet felis consectetur scelerisque. In condimentum ac nunc quis
-        ultricies.</p>
-</section>
-
-<!-- Random Section 5 -->
-<section id="lore5">
-    <h2>Random Lore Section 5</h2>
-    <p>Duis laoreet malesuada consectetur. Nulla at nunc eu justo auctor mattis. Curabitur eu nulla vel dui
-        fermentum egestas. In euismod a erat nec tincidunt. Fusce fermentum arcu nec ullamcorper dictum. Maecenas
-        fermentum ut lorem a aliquam. Etiam sollicitudin ipsum at interdum ullamcorper.</p>
-</section>
-
-</body>
+                // Fix fragment links
+                if (decrypted.includes("</body>")) decrypted = decrypted.replace("</body>", anchorfixstr + '</body>');
+                else if (decrypted.includes("</html>")) decrypted = decrypted.replace("</html>", anchorfixstr + '</html>');
+                else decrypted = decrypted + anchorfixstr;
+                
+                contentFrame.srcdoc = decrypted;
+                
+                successEl.style.display = "inline";
+                setTimeout(function() {
+                    dialogWrap.style.display = "none";
+                }, 1000);
+            } catch (e) {
+                invalidPassEl.style.display = "inline";
+                passEl.value = "";
+                submitPass.disabled = false;
+                passEl.disabled = false;
+                console.error(e);
+                return;
+            }
+        }
+        
+        submitPass.onclick = doSubmit;
+        passEl.onkeypress = function(e){
+            if (!e) e = window.event;
+            var keyCode = e.keyCode || e.which;
+            invalidPassEl.style.display = "none";
+            if (keyCode == '13'){
+              // Enter pressed
+              doSubmit();
+              return false;
+            }
+        }
+    })();
+    </script>
+  </body>
 </html>
